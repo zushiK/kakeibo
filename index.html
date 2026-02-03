@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計簿アプリ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>💰 家計簿</h1>
+            <p class="subtitle">シンプルな支出管理</p>
+        </header>
+
+        <main class="main">
+            <!-- 入力フォーム -->
+            <section class="form-section">
+                <div class="form-card">
+                    <form id="expense-form">
+                        <div class="form-group">
+                            <label for="item-name">項目名</label>
+                            <input type="text" id="item-name" placeholder="例: 食費、交通費、娯楽..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">金額</label>
+                            <div class="amount-input-wrapper">
+                                <span class="currency-symbol">¥</span>
+                                <input type="number" id="amount" placeholder="0" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>タグ</label>
+                            <div class="tag-radio-group" id="tag-group">
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="食費">
+                                    <span class="tag-radio-btn" data-color="#ff6b6b">🍽️ 食費</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="交通費">
+                                    <span class="tag-radio-btn" data-color="#4ecdc4">🚃 交通費</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="生活費">
+                                    <span class="tag-radio-btn" data-color="#45b7d1">🏠 生活費</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="交際費">
+                                    <span class="tag-radio-btn" data-color="#f7b731">🎉 交際費</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="趣味">
+                                    <span class="tag-radio-btn" data-color="#a55eea">🎮 趣味</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="その他">
+                                    <span class="tag-radio-btn" data-color="#778ca3">📦 その他</span>
+                                </label>
+                                <label class="tag-radio">
+                                    <input type="radio" name="tag" value="自動" checked>
+                                    <span class="tag-radio-btn" data-color="#667eea">✨ 自動</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-icon">+</span>
+                            追加する
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 月選択 & 合計表示 -->
+            <section class="summary-section">
+                <div class="month-selector">
+                    <button id="prev-month-btn" class="month-nav-btn" aria-label="前月">◀</button>
+                    <select id="month-select" class="month-select"></select>
+                    <button id="next-month-btn" class="month-nav-btn" aria-label="次月">▶</button>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">合計金額</div>
+                    <div class="summary-amount">
+                        <span class="currency">¥</span>
+                        <span id="total-amount">0</span>
+                    </div>
+                    <div class="summary-count">
+                        <span id="item-count">0</span> 件の項目
+                    </div>
+                </div>
+            </section>
+
+            <!-- 一覧表示 -->
+            <section class="list-section">
+                <div class="list-header">
+                    <h2>支出一覧</h2>
+                    <button id="clear-all-btn" class="clear-btn" style="display: none;">
+                        すべて削除
+                    </button>
+                </div>
+                <div id="expense-list" class="expense-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <p>まだ項目がありません</p>
+                        <p class="empty-hint">上のフォームから追加してください</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>© 2026 家計簿アプリ</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,715 @@
+/* ===================================
+   CSS Variables & Base Styles
+   =================================== */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: rgba(30, 30, 50, 0.8);
+    --bg-glass: rgba(255, 255, 255, 0.05);
+
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.4);
+
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(240, 147, 251, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===================================
+   Container & Layout
+   =================================== */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================================
+   Header
+   =================================== */
+.header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    animation: fadeInDown 0.6s ease;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* ===================================
+   Main Content
+   =================================== */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ===================================
+   Form Section
+   =================================== */
+.form-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    animation: fadeInUp 0.5s ease;
+}
+
+.form-card h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.amount-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.amount-input-wrapper input {
+    padding-left: 40px;
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: white;
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+/* ===================================
+   Tag Radio Buttons
+   =================================== */
+.tag-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-radio {
+    cursor: pointer;
+    margin: 0;
+}
+
+.tag-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.tag-radio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.tag-radio-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Selected state - focus style with color */
+.tag-radio input[type="radio"]:checked+.tag-radio-btn {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px currentColor;
+}
+
+/* Apply tag-specific colors when checked */
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#ff6b6b"] {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #ff6b6b;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#4ecdc4"] {
+    color: #4ecdc4;
+    border-color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #4ecdc4;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#45b7d1"] {
+    color: #45b7d1;
+    border-color: #45b7d1;
+    background: rgba(69, 183, 209, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #45b7d1;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#f7b731"] {
+    color: #f7b731;
+    border-color: #f7b731;
+    background: rgba(247, 183, 49, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #f7b731;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#a55eea"] {
+    color: #a55eea;
+    border-color: #a55eea;
+    background: rgba(165, 94, 234, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #a55eea;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#778ca3"] {
+    color: #778ca3;
+    border-color: #778ca3;
+    background: rgba(119, 140, 163, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #778ca3;
+}
+
+.tag-radio input[type="radio"]:checked+.tag-radio-btn[data-color="#667eea"] {
+    color: #667eea;
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.15);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px #667eea;
+}
+
+/* ===================================
+   Summary Section
+   =================================== */
+.summary-card {
+    background: var(--primary-gradient);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    animation: fadeInUp 0.5s ease 0.1s both;
+}
+
+.summary-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.summary-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+}
+
+.summary-amount .currency {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.summary-count {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 8px;
+    position: relative;
+}
+
+/* ===================================
+   List Section
+   =================================== */
+.list-section {
+    animation: fadeInUp 0.5s ease 0.2s both;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 4px;
+}
+
+.list-header h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.clear-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.clear-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+    border-color: rgba(255, 107, 107, 0.5);
+}
+
+.expense-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-color);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.empty-hint {
+    font-size: 0.85rem !important;
+    color: var(--text-muted) !important;
+    margin-top: 4px;
+}
+
+/* Expense Item */
+.expense-item {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: all var(--transition-fast);
+    animation: fadeInUp 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.expense-item:has(.tag-wrapper.open) {
+    z-index: 10;
+}
+
+.expense-item:hover {
+    border-color: rgba(102, 126, 234, 0.3);
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.expense-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.expense-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.expense-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.expense-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 1px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Tag Wrapper & Dropdown */
+.tag-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.editable-tag {
+    cursor: pointer;
+    font-family: inherit;
+    transition: all var(--transition-fast);
+}
+
+.editable-tag:hover {
+    filter: brightness(1.2);
+    transform: scale(1.02);
+}
+
+.tag-edit-icon {
+    font-size: 0.6rem;
+    margin-left: 2px;
+    opacity: 0.6;
+    transition: transform var(--transition-fast);
+}
+
+.tag-wrapper.open .tag-edit-icon {
+    transform: rotate(180deg);
+}
+
+.tag-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 140px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-fast);
+    overflow: hidden;
+}
+
+.tag-wrapper.open .tag-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.tag-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+}
+
+.tag-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--tag-color, var(--text-primary));
+}
+
+.tag-option.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--tag-color, var(--text-primary));
+    font-weight: 600;
+}
+
+.tag-option.active::before {
+    content: '✓';
+    margin-right: 4px;
+    font-size: 0.75rem;
+}
+
+.expense-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.expense-amount {
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: var(--secondary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+}
+
+.delete-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.delete-btn:hover {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+/* ===================================
+   Footer
+   =================================== */
+.footer {
+    text-align: center;
+    padding: 32px 20px 20px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ===================================
+   Animations
+   =================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Item removal animation */
+.expense-item.removing {
+    animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* ===================================
+   Responsive
+   =================================== */
+@media (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .form-card,
+    .summary-card {
+        padding: 20px;
+    }
+
+    .summary-amount {
+        font-size: 2rem;
+    }
+
+    .expense-item {
+        padding: 14px 16px;
+    }
+}
