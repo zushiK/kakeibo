@@ -65,6 +65,12 @@ const expenseList = document.getElementById('expense-list');
 const totalAmountEl = document.getElementById('total-amount');
 const itemCountEl = document.getElementById('item-count');
 const clearAllBtn = document.getElementById('clear-all-btn');
+const monthSelect = document.getElementById('month-select');
+const prevMonthBtn = document.getElementById('prev-month-btn');
+const nextMonthBtn = document.getElementById('next-month-btn');
+
+// 現在選択中の月 (YYYY-MM 形式)
+let currentMonth = getCurrentMonthKey();
 
 // ===================================
 // Utility Functions
@@ -75,6 +81,54 @@ const clearAllBtn = document.getElementById('clear-all-btn');
  */
 function formatAmount(amount) {
     return new Intl.NumberFormat('ja-JP').format(amount);
+}
+
+/**
+ * 現在の月キーを取得 (YYYY-MM)
+ */
+function getCurrentMonthKey() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+}
+
+/**
+ * 月キーから表示用のラベルを生成
+ */
+function formatMonthLabel(monthKey) {
+    const [year, month] = monthKey.split('-');
+    return `${year}年${parseInt(month)}月`;
+}
+
+/**
+ * 支出から全ての月キーを取得
+ */
+function getAllMonthKeys() {
+    const expenses = getExpenses();
+    const monthSet = new Set();
+
+    expenses.forEach(expense => {
+        const date = new Date(expense.date);
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        monthSet.add(key);
+    });
+
+    // 現在の月も必ず含める
+    monthSet.add(getCurrentMonthKey());
+
+    // ソート（新しい順）
+    return Array.from(monthSet).sort().reverse();
+}
+
+/**
+ * 選択月の支出をフィルタリング
+ */
+function getExpensesByMonth(monthKey) {
+    const expenses = getExpenses();
+    return expenses.filter(expense => {
+        const date = new Date(expense.date);
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        return key === monthKey;
+    });
 }
 
 /**
@@ -205,7 +259,7 @@ function escapeHtml(text) {
  * 支出一覧を描画
  */
 function renderExpenses() {
-    const expenses = getExpenses();
+    const expenses = getExpensesByMonth(currentMonth);
 
     if (expenses.length === 0) {
         expenseList.innerHTML = renderEmptyState();
@@ -230,11 +284,82 @@ function renderExpenses() {
  * 合計を更新
  */
 function updateSummary() {
-    const expenses = getExpenses();
+    const expenses = getExpensesByMonth(currentMonth);
     const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
     totalAmountEl.textContent = formatAmount(total);
     itemCountEl.textContent = expenses.length;
+}
+
+/**
+ * 月選択セレクトを初期化
+ */
+function initMonthSelector() {
+    const months = getAllMonthKeys();
+
+    monthSelect.innerHTML = months.map(monthKey => {
+        const selected = monthKey === currentMonth ? 'selected' : '';
+        return `<option value="${monthKey}" ${selected}>${formatMonthLabel(monthKey)}</option>`;
+    }).join('');
+}
+
+/**
+ * 月を変更
+ */
+function changeMonth(monthKey) {
+    currentMonth = monthKey;
+    monthSelect.value = monthKey;
+    renderExpenses();
+}
+
+/**
+ * 前の月へ
+ */
+function goToPrevMonth() {
+    const [year, month] = currentMonth.split('-').map(Number);
+    let newYear = year;
+    let newMonth = month - 1;
+
+    if (newMonth < 1) {
+        newMonth = 12;
+        newYear--;
+    }
+
+    const newKey = `${newYear}-${String(newMonth).padStart(2, '0')}`;
+    changeMonth(newKey);
+
+    // セレクトにない月なら追加
+    if (!monthSelect.querySelector(`option[value="${newKey}"]`)) {
+        const option = document.createElement('option');
+        option.value = newKey;
+        option.textContent = formatMonthLabel(newKey);
+        monthSelect.insertBefore(option, monthSelect.firstChild);
+    }
+}
+
+/**
+ * 次の月へ
+ */
+function goToNextMonth() {
+    const [year, month] = currentMonth.split('-').map(Number);
+    let newYear = year;
+    let newMonth = month + 1;
+
+    if (newMonth > 12) {
+        newMonth = 1;
+        newYear++;
+    }
+
+    const newKey = `${newYear}-${String(newMonth).padStart(2, '0')}`;
+    changeMonth(newKey);
+
+    // セレクトにない月なら追加
+    if (!monthSelect.querySelector(`option[value="${newKey}"]`)) {
+        const option = document.createElement('option');
+        option.value = newKey;
+        option.textContent = formatMonthLabel(newKey);
+        monthSelect.appendChild(option);
+    }
 }
 
 // ===================================
@@ -385,9 +510,18 @@ document.addEventListener('click', (e) => {
 // 全削除ボタン
 clearAllBtn.addEventListener('click', clearAllExpenses);
 
+// 月選択イベント
+monthSelect.addEventListener('change', (e) => {
+    changeMonth(e.target.value);
+});
+
+prevMonthBtn.addEventListener('click', goToPrevMonth);
+nextMonthBtn.addEventListener('click', goToNextMonth);
+
 // ===================================
 // Initialize
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
+    initMonthSelector();
     renderExpenses();
 });
